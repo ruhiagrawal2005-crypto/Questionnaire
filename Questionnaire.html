@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram & Mental Health — Self-Reflection Questionnaire</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple-light: #EEEDFE;
+    --purple-mid: #7F77DD;
+    --purple-dark: #534AB7;
+    --purple-darker: #3C3489;
+    --teal-light: #E1F5EE;
+    --teal-mid: #1D9E75;
+    --teal-dark: #085041;
+    --coral-light: #FAECE7;
+    --coral-mid: #D85A30;
+    --coral-dark: #4A1B0C;
+    --amber-light: #FAEEDA;
+    --amber-mid: #BA7517;
+    --amber-dark: #412402;
+    --gray-light: #F1EFE8;
+    --gray-mid: #888780;
+    --gray-dark: #2C2C2A;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555555;
+    --text-tertiary: #888888;
+    --border: #e0e0e0;
+    --bg: #f7f7f5;
+    --white: #ffffff;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+  }
+
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 12px 0 8px;
+    z-index: 10;
+    margin-bottom: 4px;
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--purple-mid);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 5px;
+    text-align: right;
+  }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* CARD */
+  .card {
+    background: var(--white);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin-bottom: 16px;
+  }
+
+  /* INTRO */
+  .intro-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--purple-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .intro-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .intro-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .tag-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--purple-light);
+    color: var(--purple-dark);
+  }
+  .notice {
+    background: var(--gray-light);
+    border-left: 3px solid var(--gray-mid);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .notice a { color: var(--purple-dark); }
+
+  /* SECTION HEADER */
+  .section-header {
+    margin-bottom: 20px;
+  }
+  .section-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--purple-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 4px;
+  }
+  .section-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+  .section-note {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+  }
+  .subscale-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  /* QUESTION BLOCK */
+  .q-block {
+    margin-bottom: 22px;
+  }
+  .q-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+  .q-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--purple-mid);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* LIKERT */
+  .likert-scale {
+    display: flex;
+    gap: 5px;
+  }
+  .likert-scale-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  .likert-scale-labels span {
+    font-size: 10px;
+    color: var(--text-tertiary);
+  }
+  .likert-btn {
+    flex: 1;
+    padding: 10px 4px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--white);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .likert-btn:hover { border-color: var(--purple-mid); color: var(--purple-dark); background: var(--purple-light); }
+  .likert-btn.selected { border-color: var(--purple-mid); background: var(--purple-light); color: var(--purple-darker); font-weight: 600; }
+
+  /* OPTIONS */
+  .option-list { display: flex; flex-direction: column; gap: 7px; }
+  .option-item {
+    padding: 11px 14px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1.4;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .option-item:hover { border-color: var(--purple-mid); background: var(--purple-light); color: var(--purple-dark); }
+  .option-item.selected { border-color: var(--purple-mid); background: var(--purple-light); color: var(--purple-darker); font-weight: 500; }
+  .multi-note { font-size: 11px; color: var(--text-tertiary); margin-bottom: 8px; }
+
+  /* DIVIDER */
+  .divider { height: 0.5px; background: var(--border); margin: 20px 0; }
+
+  /* NAVIGATION */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    gap: 10px;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 0.5px solid var(--border);
+    background: var(--white);
+    color: var(--text-primary);
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--gray-light); }
+  .btn-primary {
+    background: var(--purple-mid);
+    color: var(--white);
+    border-color: var(--purple-mid);
+    flex: 1;
+    text-align: center;
+  }
+  .btn-primary:hover { background: var(--purple-dark); border-color: var(--purple-dark); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* RESULT */
+  .result-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .result-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 6px;
+  }
+  .result-card {
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    margin-bottom: 16px;
+    border: 0.5px solid transparent;
+  }
+  .result-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .result-profile-name {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .result-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .scores-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .score-pill {
+    padding: 10px 8px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+  }
+  .score-pill-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .score-pill-val {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .result-footer {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+  .result-notice {
+    background: var(--gray-light);
+    border-left: 3px solid var(--gray-mid);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+
+  /* FOOTER */
+  .page-footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 24px;
+    line-height: 1.8;
+  }
+
+  /* SUBMIT STATUS */
+  .submit-status {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+    margin-top: 10px;
+    min-height: 18px;
+  }
+
+  @media (max-width: 400px) {
+    .card { padding: 18px 14px; }
+    .likert-btn { padding: 9px 2px; font-size: 12px; }
+    .scores-row { grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+    .score-pill-val { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">Getting started</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 0 — INTRO
+  ═══════════════════════════════════════════ -->
+  <div class="screen active" id="screen-intro">
+    <div class="card">
+      <div class="intro-logo">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+          <rect x="3" y="3" width="20" height="20" rx="6" stroke="#7F77DD" stroke-width="1.5"/>
+          <circle cx="13" cy="13" r="4" stroke="#7F77DD" stroke-width="1.5"/>
+          <circle cx="19.5" cy="6.5" r="1.5" fill="#7F77DD"/>
+        </svg>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Self-reflection</span>
+        <span class="tag">8–10 minutes</span>
+        <span class="tag">Anonymous</span>
+      </div>
+      <div class="intro-title">Instagram &amp; Mental Health</div>
+      <div class="intro-subtitle">
+        This questionnaire explores your personal relationship with mental health content on Instagram — how you encounter it, how it shapes your thinking, and how you navigate both its benefits and its risks.<br><br>
+        At the end, you will receive a personalised profile based on your responses.
+      </div>
+      <div class="notice">
+        <strong>Before you begin:</strong> Some questions touch on mental health experiences. There are no right or wrong answers. If any question feels difficult, you may skip it. If you need to speak to someone, please contact <strong>iCall (India): 9152987821</strong> (Mon–Sat, 8am–10pm).
+      </div>
+      <button class="btn btn-primary" onclick="goToScreen('sectionA')" style="width:100%; padding:13px;">Begin questionnaire →</button>
+    </div>
+    <div class="page-footer">
+      Rachita Agrawal &nbsp;|&nbsp; 23JMC2JM020 &nbsp;|&nbsp; VGU Jaipur<br>
+      Supervisor: Dr. Harsh Tomer &nbsp;|&nbsp; Dept. of Journalism and Mass Communication
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 1 — SECTION A
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-sectionA">
+    <div class="card">
+      <div class="section-header">
+        <div class="section-tag">Section A</div>
+        <div class="section-title">About You</div>
+        <div class="section-note">Please answer all four questions before proceeding.</div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">A0</span>Your name</div>
+        <input type="text" id="A0" placeholder="Enter your full name" oninput="answers['A0'] = this.value"
+          style="width:100%; padding:11px 14px; border:0.5px solid var(--border); border-radius:var(--radius-sm); font-size:13px; color:var(--text-primary); background:var(--white); outline:none; font-family:inherit;"
+          onfocus="this.style.borderColor='var(--purple-mid)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">A1</span>What is your age?</div>
+        <div class="option-list" id="A1">
+          <div class="option-item" onclick="selectOption('A1', this, '18')">18 years</div>
+          <div class="option-item" onclick="selectOption('A1', this, '19')">19 years</div>
+          <div class="option-item" onclick="selectOption('A1', this, '20')">20 years</div>
+          <div class="option-item" onclick="selectOption('A1', this, '21')">21 years</div>
+          <div class="option-item" onclick="selectOption('A1', this, '22')">22 years</div>
+          <div class="option-item" onclick="selectOption('A1', this, '23')">23 years</div>
+          <div class="option-item" onclick="selectOption('A1', this, '24')">24 years</div>
+          <div class="option-item" onclick="selectOption('A1', this, '25')">25 years</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">A2</span>What is your gender identity?</div>
+        <div class="option-list" id="A2">
+          <div class="option-item" onclick="selectOption('A2', this, 'Male')">Male</div>
+          <div class="option-item" onclick="selectOption('A2', this, 'Female')">Female</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">A3</span>How many hours per day do you typically spend on Instagram?</div>
+        <div class="option-list" id="A3">
+          <div class="option-item" onclick="selectOption('A3', this, 'Less than 30 minutes')">Less than 30 minutes</div>
+          <div class="option-item" onclick="selectOption('A3', this, '30 min–1 hour')">30 minutes to 1 hour</div>
+          <div class="option-item" onclick="selectOption('A3', this, '1–2 hours')">1–2 hours</div>
+          <div class="option-item" onclick="selectOption('A3', this, '2–4 hours')">2–4 hours</div>
+          <div class="option-item" onclick="selectOption('A3', this, 'More than 4 hours')">More than 4 hours</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">A4</span>How long have you been actively using Instagram?</div>
+        <div class="option-list" id="A4">
+          <div class="option-item" onclick="selectOption('A4', this, 'Less than 1 year')">Less than 1 year</div>
+          <div class="option-item" onclick="selectOption('A4', this, '1–2 years')">1–2 years</div>
+          <div class="option-item" onclick="selectOption('A4', this, '2–3 years')">2–3 years</div>
+          <div class="option-item" onclick="selectOption('A4', this, '3–5 years')">3–5 years</div>
+          <div class="option-item" onclick="selectOption('A4', this, 'More than 5 years')">More than 5 years</div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn" onclick="goToScreen('intro')">← Back</button>
+        <button class="btn btn-primary" onclick="goToScreen('sectionB')">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 2 — SECTION B
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-sectionB">
+    <div class="card">
+      <div class="section-header">
+        <div class="section-tag">Section B</div>
+        <div class="section-title">Your Exposure to Mental Health Content on Instagram</div>
+        <div class="section-note">Scale: 1 = Strongly Disagree &nbsp;&nbsp; 3 = Neutral &nbsp;&nbsp; 5 = Strongly Agree</div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">B1</span>I actively follow accounts, hashtags, or communities that discuss mental health topics (depression, anxiety, self-harm, etc.).</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="B1">
+          <div class="likert-btn" onclick="selectLikert('B1', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('B1', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('B1', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('B1', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('B1', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">B2</span>I encounter content related to depression, anxiety, or self-harm multiple times per week on my Instagram feed.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="B2">
+          <div class="likert-btn" onclick="selectLikert('B2', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('B2', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('B2', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('B2', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('B2', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">B3</span>I feel a sense of belonging to online communities on Instagram that discuss mental health struggles.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="B3">
+          <div class="likert-btn" onclick="selectLikert('B3', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('B3', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('B3', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('B3', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('B3', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">B4</span>The mental health content I encounter on Instagram comes from: <span style="font-size:11px; color:var(--text-tertiary); font-weight:400;">(Select all that apply)</span></div>
+        <div class="option-list" id="B4">
+          <div class="option-item multi" onclick="toggleMulti('B4', this, 'Verified mental health professionals')">Verified mental health professionals</div>
+          <div class="option-item multi" onclick="toggleMulti('B4', this, 'Individuals sharing personal experiences')">Individuals sharing personal experiences</div>
+          <div class="option-item multi" onclick="toggleMulti('B4', this, 'Mental health advocacy organisations')">Mental health advocacy organisations</div>
+          <div class="option-item multi" onclick="toggleMulti('B4', this, 'Peers and friends')">Peers and friends</div>
+          <div class="option-item multi" onclick="toggleMulti('B4', this, 'Mixed sources')">Mixed sources</div>
+          <div class="option-item multi" onclick="toggleMulti('B4', this, 'Unsure')">Unsure / Don't pay attention to source</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">B5</span>How frequently do you engage (like, comment, share) with mental health-related content on Instagram?</div>
+        <div class="option-list" id="B5">
+          <div class="option-item" onclick="selectOption('B5', this, 'Never')">Never</div>
+          <div class="option-item" onclick="selectOption('B5', this, 'Rarely (1–2 times/month)')">Rarely (1–2 times per month)</div>
+          <div class="option-item" onclick="selectOption('B5', this, 'Sometimes (1–2 times/week)')">Sometimes (1–2 times per week)</div>
+          <div class="option-item" onclick="selectOption('B5', this, 'Often (several times/week)')">Often (several times per week)</div>
+          <div class="option-item" onclick="selectOption('B5', this, 'Very frequently (daily)')">Very frequently (daily)</div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn" onclick="goToScreen('sectionA')">← Back</button>
+        <button class="btn btn-primary" onclick="goToScreen('sectionC')">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 3 — SECTION C
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-sectionC">
+    <div class="card">
+      <div class="section-header">
+        <div class="section-tag">Section C</div>
+        <div class="section-title">How Instagram Shapes Your Perception of Mental Health</div>
+        <div class="section-note">Indicate how much you agree or disagree with each statement.<br>Scale: 1 = Strongly Disagree &nbsp;&nbsp; 3 = Neutral &nbsp;&nbsp; 5 = Strongly Agree</div>
+      </div>
+
+      <div class="subscale-label">Part I — Destigmatisation: The positive side</div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C1</span>Instagram content has helped me understand that depression is a common medical condition, not a personal weakness.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C1">
+          <div class="likert-btn" onclick="selectLikert('C1', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C1', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C1', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C1', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C1', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C2</span>Content on Instagram has made me more likely to seek professional help for mental health issues.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C2">
+          <div class="likert-btn" onclick="selectLikert('C2', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C2', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C2', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C2', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C2', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C3</span>I feel more comfortable discussing mental health openly with friends because of what I see on Instagram.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C3">
+          <div class="likert-btn" onclick="selectLikert('C3', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C3', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C3', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C3', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C3', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C4</span>Mental health awareness content on Instagram has encouraged me to be more supportive of others struggling with mental health.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C4">
+          <div class="likert-btn" onclick="selectLikert('C4', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C4', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C4', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C4', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C4', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="subscale-label">Part II — Glamorisation: The negative side</div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C5</span>Instagram content sometimes makes depression seem attractive or romantic.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C5">
+          <div class="likert-btn" onclick="selectLikert('C5', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C5', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C5', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C5', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C5', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C6</span>I have seen Instagram content that portrays anxiety or self-harm as a form of aesthetic or artistic expression.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C6">
+          <div class="likert-btn" onclick="selectLikert('C6', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C6', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C6', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C6', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C6', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C7</span>Instagram content sometimes makes having mental health conditions seem like a status symbol or badge of identity.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C7">
+          <div class="likert-btn" onclick="selectLikert('C7', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C7', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C7', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C7', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C7', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C8</span>Instagram content sometimes minimizes the serious consequences of depression, anxiety, or self-harm.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C8">
+          <div class="likert-btn" onclick="selectLikert('C8', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C8', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C8', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C8', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C8', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">C9</span>I have seen "self-harm" aesthetics or challenges on Instagram that normalize harmful behaviors.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="C9">
+          <div class="likert-btn" onclick="selectLikert('C9', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('C9', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('C9', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('C9', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('C9', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn" onclick="goToScreen('sectionB')">← Back</button>
+        <button class="btn btn-primary" onclick="goToScreen('sectionD')">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 4 — SECTION D
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-sectionD">
+    <div class="card">
+      <div class="section-header">
+        <div class="section-tag">Section D</div>
+        <div class="section-title">Social Influence and Peer Effects</div>
+        <div class="section-note">Scale: 1 = Strongly Disagree &nbsp;&nbsp; 3 = Neutral &nbsp;&nbsp; 5 = Strongly Agree</div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">D1</span>Seeing peers on Instagram discuss their mental health struggles has normalized these issues for me.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="D1">
+          <div class="likert-btn" onclick="selectLikert('D1', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('D1', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('D1', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('D1', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('D1', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">D2</span>I feel pressured to perform or present my mental health struggles in a certain way because of what I see on Instagram.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="D2">
+          <div class="likert-btn" onclick="selectLikert('D2', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('D2', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('D2', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('D2', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('D2', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">D3</span>Instagram accounts I follow have influenced my understanding of what depression, anxiety, or self-harm "should look like."</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="D3">
+          <div class="likert-btn" onclick="selectLikert('D3', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('D3', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('D3', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('D3', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('D3', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">D4</span>Instagram communities have influenced whether I seek professional help or rely on peer support instead.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="D4">
+          <div class="likert-btn" onclick="selectLikert('D4', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('D4', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('D4', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('D4', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('D4', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">D5</span>I compare my mental health experiences to those I see on Instagram.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="D5">
+          <div class="likert-btn" onclick="selectLikert('D5', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('D5', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('D5', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('D5', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('D5', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn" onclick="goToScreen('sectionC')">← Back</button>
+        <button class="btn btn-primary" onclick="goToScreen('sectionE')">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 5 — SECTION E
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-sectionE">
+    <div class="card">
+      <div class="section-header">
+        <div class="section-tag">Section E — Final section</div>
+        <div class="section-title">The Duality of Normalisation</div>
+        <div class="section-note">Your overall view on how Instagram normalises mental health — weighing both sides together.<br>Scale: 1 = Strongly Disagree &nbsp;&nbsp; 3 = Neutral &nbsp;&nbsp; 5 = Strongly Agree</div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">E1</span>Normalizing mental health discussion on Instagram is beneficial because it reduces shame and encourages help-seeking.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="E1">
+          <div class="likert-btn" onclick="selectLikert('E1', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('E1', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('E1', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('E1', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('E1', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">E2</span>However, normalizing mental health on Instagram can be harmful when it romanticizes or glamorizes serious conditions.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="E2">
+          <div class="likert-btn" onclick="selectLikert('E2', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('E2', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('E2', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('E2', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('E2', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">E3</span>There is a fine line between destigmatizing mental health and making mental illness seem appealing or desirable on Instagram.</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="E3">
+          <div class="likert-btn" onclick="selectLikert('E3', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('E3', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('E3', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('E3', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('E3', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">E4</span>Instagram subcultures have made me feel less alone in my mental health struggles (positive normalization).</div>
+        <div class="likert-scale-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>
+        <div class="likert-scale" id="E4">
+          <div class="likert-btn" onclick="selectLikert('E4', this, 1)">1</div>
+          <div class="likert-btn" onclick="selectLikert('E4', this, 2)">2</div>
+          <div class="likert-btn" onclick="selectLikert('E4', this, 3)">3</div>
+          <div class="likert-btn" onclick="selectLikert('E4', this, 4)">4</div>
+          <div class="likert-btn" onclick="selectLikert('E4', this, 5)">5</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="q-block">
+        <div class="q-label"><span class="q-num">E5</span>Overall, I believe Instagram's normalization of mental health is:</div>
+        <div class="option-list" id="E5">
+          <div class="option-item" onclick="selectOption('E5', this, 'Highly beneficial')">Highly beneficial</div>
+          <div class="option-item" onclick="selectOption('E5', this, 'Mostly beneficial')">Mostly beneficial</div>
+          <div class="option-item" onclick="selectOption('E5', this, 'Equally beneficial and harmful')">Equally beneficial and harmful</div>
+          <div class="option-item" onclick="selectOption('E5', this, 'Mostly harmful')">Mostly harmful</div>
+          <div class="option-item" onclick="selectOption('E5', this, 'Highly harmful')">Highly harmful</div>
+          <div class="option-item" onclick="selectOption('E5', this, 'Unsure')">Unsure</div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn" onclick="goToScreen('sectionD')">← Back</button>
+        <button class="btn btn-primary" id="submitBtn" onclick="submitAndShowResult()">See my profile →</button>
+      </div>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 6 — RESULT
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-result">
+    <div class="card" id="resultCard">
+      <div class="result-header">
+        <div class="result-tag">Your personalised profile</div>
+      </div>
+      <div class="result-card" id="profileCard">
+        <div class="result-icon" id="profileIcon"></div>
+        <div class="result-profile-name" id="profileName"></div>
+        <div class="result-desc" id="profileDesc"></div>
+      </div>
+      <div class="result-notice">
+        This profile reflects your relationship with mental health content on Instagram based on your responses. It is not a clinical assessment. If you have concerns about your mental health, please speak to a professional.<br><br>
+        <strong>iCall (India): 9152987821</strong> &nbsp;·&nbsp; Mon–Sat, 8am–10pm
+      </div>
+    </div>
+    <div class="page-footer">
+      Thank you for participating. Your responses contribute to academic research on social media and mental health.<br>
+      Rachita Agrawal &nbsp;|&nbsp; VGU Jaipur &nbsp;|&nbsp; Supervisor: Dr. Harsh Tomer
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── GOOGLE SHEETS ENDPOINT ──────────────────────────────────────────────────
+// REPLACE THIS URL with your deployed Google Apps Script Web App URL
+const SHEET_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+// ── DATA STORE ──────────────────────────────────────────────────────────────
+const answers = {};
+const multiAnswers = { B4: [] };
+
+const SCREENS = ['intro','sectionA','sectionB','sectionC','sectionD','sectionE','result'];
+const SCREEN_LABELS = {
+  'intro': 'Getting started',
+  'sectionA': 'Section A — About You',
+  'sectionB': 'Section B — Exposure',
+  'sectionC': 'Section C — Normalisation',
+  'sectionD': 'Section D — Social Influence',
+  'sectionE': 'Section E — The Duality',
+  'result': 'Your Profile'
+};
+
+function goToScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateProgress(name);
+}
+
+function updateProgress(screenName) {
+  const idx = SCREENS.indexOf(screenName);
+  const pct = Math.round((idx / (SCREENS.length - 1)) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = SCREEN_LABELS[screenName] || '';
+}
+
+function selectOption(qid, el, value) {
+  document.querySelectorAll('#' + qid + ' .option-item:not(.multi)').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[qid] = value;
+}
+
+function toggleMulti(qid, el, value) {
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    multiAnswers[qid] = multiAnswers[qid].filter(v => v !== value);
+  } else {
+    el.classList.add('selected');
+    if (!multiAnswers[qid]) multiAnswers[qid] = [];
+    multiAnswers[qid].push(value);
+  }
+  answers[qid] = multiAnswers[qid].join('; ');
+}
+
+function selectLikert(qid, el, value) {
+  document.querySelectorAll('#' + qid + ' .likert-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[qid] = value;
+}
+
+// ── SCORING ─────────────────────────────────────────────────────────────────
+function calculateScores() {
+  // Benefit Score — C1, C2, C3, C4 (max 20)
+  const benefitRaw = (answers.C1||3) + (answers.C2||3) + (answers.C3||3) + (answers.C4||3);
+  const benefitPct = Math.round((benefitRaw / 20) * 100);
+
+  // Harm Score — C5, C6, C7, C8, C9 (max 25)
+  const harmRaw = (answers.C5||3) + (answers.C6||3) + (answers.C7||3) + (answers.C8||3) + (answers.C9||3);
+  const harmPct = Math.round((harmRaw / 25) * 100);
+
+  // Influence Score — D1, D2, D3, D4, D5, E1, E2, E3, E4 (max 45)
+  const influenceRaw = (answers.D1||3) + (answers.D2||3) + (answers.D3||3) + (answers.D4||3) + (answers.D5||3)
+                     + (answers.E1||3) + (answers.E2||3) + (answers.E3||3) + (answers.E4||3);
+  const influencePct = Math.round((influenceRaw / 45) * 100);
+
+  return { benefitPct, harmPct, influencePct };
+}
+
+function assignProfile(benefitPct, harmPct, influencePct) {
+  const leansBenefit = benefitPct >= harmPct;
+  const highInfluence = influencePct >= 50;
+
+  if (leansBenefit && !highInfluence) return 'supporter';
+  if (leansBenefit && highInfluence)  return 'absorbed';
+  if (!leansBenefit && !highInfluence) return 'sceptic';
+  return 'navigator'; // !leansBenefit && highInfluence — also default for ties
+}
+
+// ── PROFILES ────────────────────────────────────────────────────────────────
+const profiles = {
+  supporter: {
+    name: "The Supporter",
+    desc: "You see Instagram's mental health communities as a genuine source of comfort and solidarity. You believe these spaces help reduce stigma and make it easier for people to open up about what they are going through. You engage with this content warmly, but you have not let it define how you see yourself or how you seek help. You are the kind of person others probably turn to when they are struggling.",
+    bg: "#E1F5EE", border: "#9FE1CB", iconBg: "#9FE1CB", textColor: "#085041",
+    iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 3 15 3 9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 12-9 12z" stroke="#085041" stroke-width="1.5" stroke-linejoin="round"/></svg>`
+  },
+  absorbed: {
+    name: "The Absorbed",
+    desc: "Instagram's mental health communities are a meaningful part of how you understand and navigate your own experiences. The language, the stories, and the shared identity you find there feel real and relevant to you personally. You genuinely believe these spaces offer something valuable — and they have shaped how you think about yourself and mental health more broadly. You are deeply connected to this world.",
+    bg: "#EEEDFE", border: "#AFA9EC", iconBg: "#AFA9EC", textColor: "#3C3489",
+    iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#3C3489" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="#3C3489" stroke-width="1.5"/><circle cx="12" cy="12" r="1.5" fill="#3C3489"/></svg>`
+  },
+  sceptic: {
+    name: "The Sceptic",
+    desc: "You have a clear eye for what Instagram's mental health content is doing. You notice the romanticisation, the aesthetic packaging of suffering, and the casual use of clinical language — and it makes you cautious. You may follow this content but you do not take it at face value. When you need support, you are more likely to look for it outside the feed. Your critical distance is a form of self-awareness.",
+    bg: "#FAECE7", border: "#F0997B", iconBg: "#F0997B", textColor: "#4A1B0C",
+    iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#4A1B0C" stroke-width="1.5"/><path d="M12 8v5" stroke="#4A1B0C" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16" r="0.75" fill="#4A1B0C"/></svg>`
+  },
+  navigator: {
+    name: "The Navigator",
+    desc: "You live in the tension. You get real value from Instagram's mental health communities — the connection, the validation, the sense that you are not alone — and at the same time you can see the risks: the glamorisation, the blurring of clinical language, the way suffering can become aesthetic. You are actively working out where the line is. That kind of awareness, even when it is uncomfortable, is exactly what this research is trying to understand.",
+    bg: "#FAEEDA", border: "#FAC775", iconBg: "#FAC775", textColor: "#412402",
+    iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#412402" stroke-width="1.5"/><path d="M12 6l1.5 4.5H18l-3.75 2.75 1.5 4.75L12 15.5l-3.75 2.5 1.5-4.75L6 10.5h4.5L12 6z" stroke="#412402" stroke-width="1.2" stroke-linejoin="round"/></svg>`
+  }
+};
+
+// ── SUBMIT ───────────────────────────────────────────────────────────────────
+function submitAndShowResult() {
+  const { benefitPct, harmPct, influencePct } = calculateScores();
+  const profileKey = assignProfile(benefitPct, harmPct, influencePct);
+  const profile = profiles[profileKey];
+
+  // Render result
+  const card = document.getElementById('profileCard');
+  card.style.background = profile.bg;
+  card.style.borderColor = profile.border;
+  document.getElementById('profileIcon').style.background = profile.iconBg;
+  document.getElementById('profileIcon').innerHTML = profile.iconSvg;
+  document.getElementById('profileName').style.color = profile.textColor;
+  document.getElementById('profileName').textContent = profile.name;
+  document.getElementById('profileDesc').style.color = profile.textColor;
+  document.getElementById('profileDesc').textContent = profile.desc;
+
+  goToScreen('result');
+
+  // Send to Google Sheets
+  sendToSheet(benefitPct, harmPct, influencePct, profile.name);
+}
+
+function sendToSheet(benefitPct, harmPct, influencePct, profileName) {
+  const payload = {
+    Timestamp: new Date().toISOString(),
+    A0: answers.A0 || '',
+    A1: answers.A1 || '',
+    A2: answers.A2 || '',
+    A3: answers.A3 || '',
+    A4: answers.A4 || '',
+    B1: answers.B1 || '',
+    B2: answers.B2 || '',
+    B3: answers.B3 || '',
+    B4: answers.B4 || '',
+    B5: answers.B5 || '',
+    C1: answers.C1 || '',
+    C2: answers.C2 || '',
+    C3: answers.C3 || '',
+    C4: answers.C4 || '',
+    C5: answers.C5 || '',
+    C6: answers.C6 || '',
+    C7: answers.C7 || '',
+    C8: answers.C8 || '',
+    C9: answers.C9 || '',
+    D1: answers.D1 || '',
+    D2: answers.D2 || '',
+    D3: answers.D3 || '',
+    D4: answers.D4 || '',
+    D5: answers.D5 || '',
+    E1: answers.E1 || '',
+    E2: answers.E2 || '',
+    E3: answers.E3 || '',
+    E4: answers.E4 || '',
+    E5: answers.E5 || '',
+    Benefit_Score: benefitPct,
+    Harm_Score: harmPct,
+    Influence_Score: influencePct,
+    Profile_Assigned: profileName
+  };
+
+  if (SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") return;
+
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+}
+
+updateProgress('intro');
+</script>
+</body>
+</html>
