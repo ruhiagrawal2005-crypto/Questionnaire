@@ -430,6 +430,15 @@
       </div>
 
       <div class="q-block">
+        <div class="q-label"><span class="q-num">A0</span>Your name</div>
+        <input type="text" id="A0" placeholder="Enter your full name" oninput="answers['A0'] = this.value"
+          style="width:100%; padding:11px 14px; border:0.5px solid var(--border); border-radius:var(--radius-sm); font-size:13px; color:var(--text-primary); background:var(--white); outline:none; font-family:inherit;"
+          onfocus="this.style.borderColor='var(--purple-mid)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="q-block">
         <div class="q-label"><span class="q-num">A1</span>What is your age?</div>
         <div class="option-list" id="A1">
           <div class="option-item" onclick="selectOption('A1', this, '18')">18 years</div>
@@ -450,8 +459,6 @@
         <div class="option-list" id="A2">
           <div class="option-item" onclick="selectOption('A2', this, 'Male')">Male</div>
           <div class="option-item" onclick="selectOption('A2', this, 'Female')">Female</div>
-          <div class="option-item" onclick="selectOption('A2', this, 'Non-binary')">Non-binary</div>
-          <div class="option-item" onclick="selectOption('A2', this, 'Prefer not to answer')">Prefer not to answer</div>
         </div>
       </div>
 
@@ -463,8 +470,8 @@
           <div class="option-item" onclick="selectOption('A3', this, 'Less than 30 minutes')">Less than 30 minutes</div>
           <div class="option-item" onclick="selectOption('A3', this, '30 min–1 hour')">30 minutes to 1 hour</div>
           <div class="option-item" onclick="selectOption('A3', this, '1–2 hours')">1–2 hours</div>
-          <div class="option-item" onclick="selectOption('A3', this, '2–3 hours')">2–3 hours</div>
-          <div class="option-item" onclick="selectOption('A3', this, 'More than 3 hours')">More than 3 hours</div>
+          <div class="option-item" onclick="selectOption('A3', this, '2–4 hours')">2–4 hours</div>
+          <div class="option-item" onclick="selectOption('A3', this, 'More than 4 hours')">More than 4 hours</div>
         </div>
       </div>
 
@@ -885,7 +892,7 @@
 <script>
 // ── GOOGLE SHEETS ENDPOINT ──────────────────────────────────────────────────
 // REPLACE THIS URL with your deployed Google Apps Script Web App URL
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbwZ1n0azJPohA5bDKOQIfZY6Ao3OBZJ-bFXJJJCQl86b_LF_SOwl4SIfWsKOqr7kjFU/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbx3n-RbHrE5L819tXlJpUFnPh_YVRagQYwKJWFKRqlLYasCT5TILyLzuHYv1krkeyAZ/exec";
 
 // ── DATA STORE ──────────────────────────────────────────────────────────────
 const answers = {};
@@ -1020,8 +1027,11 @@ function submitAndShowResult() {
 }
 
 function sendToSheet(benefitPct, harmPct, influencePct, profileName) {
+  if (SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") return;
+
   const payload = {
     Timestamp: new Date().toISOString(),
+    A0: answers.A0 || '',
     A1: answers.A1 || '',
     A2: answers.A2 || '',
     A3: answers.A3 || '',
@@ -1056,8 +1066,13 @@ function sendToSheet(benefitPct, harmPct, influencePct, profileName) {
     Profile_Assigned: profileName
   };
 
-  if (SHEET_URL === "https://script.google.com/macros/s/AKfycbx3n-RbHrE5L819tXlJpUFnPh_YVRagQYwKJWFKRqlLYasCT5TILyLzuHYv1krkeyAZ/exec") return;
+  // GET request with query parameters — most reliable for Apps Script
+  const params = Object.keys(payload)
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(payload[k]))
+    .join('&');
+  fetch(SHEET_URL + '?' + params, { method: 'GET', mode: 'no-cors' }).catch(() => {});
 
+  // POST fallback
   fetch(SHEET_URL, {
     method: 'POST',
     mode: 'no-cors',
